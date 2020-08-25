@@ -1,3 +1,7 @@
+#Learn from my mistakes this time around:
+#   Could just add values from each simulation to a vector and use 'mean' and 'var'
+#   to find expected value and variance respectively, instead of counting it manually!
+
 # Exercise 1: Coin Toss
 
 simulate_coin_toss_a <- function(N){
@@ -92,10 +96,9 @@ simulate_insurance_claims_b <- function(B){
     for (y in 1:B){
         N <- rpois(1, 6) # Number of claims.
         amount_sum <- 0
-        for (n in 1:N){
-            C <- rlnorm(1, -2, 1) # Claim amount. 
-            amount_sum = amount_sum + C
-        }
+        
+        C <- rlnorm(N, -2, 1) # Claim amount. 
+        amount_sum = amount_sum + sum(C)
         
         E = E + amount_sum
         v <- c(v, amount_sum)
