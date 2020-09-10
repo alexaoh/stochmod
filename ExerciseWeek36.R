@@ -4,7 +4,7 @@
 # State 0 = It rained today.
 # State 1 = It did not rain today. 
 
-P <- matrix(c(0.70, 0.25, 0.30, 0.75), nrow = 2)
+P <- matrix(c(0.70, 0.30, 0.25, 0.75), nrow = 2, byrow=TRUE)
 
 # Simulate for one year.
 B <- 365
