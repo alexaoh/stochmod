@@ -1,21 +1,22 @@
-#Problem 1: Modelling the outbreak of measles
-# d) Simulate the Markov chain and the given expected values
-# compared to the theoretical values. 
+#Problem 1: Modelling the outbreak of measles.
+# d) Simulate the Markov chain and the given expected values.
+# Compare to the theoretical values. 
 
-# State 0: Susceptible
-# State 1: Infected
-# State 2: Recovered and immune
+# State 0: Susceptible.
+# State 1: Infected.
+# State 2: Recovered and immune.
 
-# Probabilities
+# Probabilities.
 beta <- 0.05
 gamma <- 0.10
 alpha <- 0.01
 
 # Transition probability matrix. 
 P = matrix(c(1 - beta, beta, 0, 0, 1 - gamma, gamma, alpha, 0, 1 - alpha), nrow = 3, byrow=TRUE)
+print("Transition probability matrix; ", quote=FALSE)
 print(P)
 year = 365 # Days in the year. 
-B = 18250 # Number of time steps to simulate for. 50 years. 
+B = 18250 # Number of time steps to simulate for (50 years).
 
 simulate <- function(){
   # Variables used to simulate the expected values. 
@@ -78,6 +79,7 @@ take.means <- function(amount, fun = simulate){
   return (list("sim1" = mean(vec1), "sim2" = mean(vec2), "sim3" = mean(vec3)))
 }
 
+# Take mean over 100 simulations
 final_values <- take.means(100)
 sim1 <- final_values$sim1
 sim2 <- final_values$sim2

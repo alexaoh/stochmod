@@ -10,7 +10,7 @@ alpha <- 0.01
 beta <- function(Y){
   return (0.5*Y[2]/N)
 }
-n <- 36500 # Time steps.
+n <- 36500 # Time steps. 100 years. 
 
 values <- matrix(data=NA,nrow=3,ncol=n) # Preallocate matrix for simulated values. 
 values[, 1] <- Y0
@@ -38,7 +38,6 @@ take.mean <- function(amount, fun = sim){
   average_inf <- c(length = amount)
   average_rec <- c(length = amount)
   
-  # Could take some averages if we want :)
   for (i in 1:amount){
     # Take an average. 
     val <- sim(values)
@@ -49,21 +48,26 @@ take.mean <- function(amount, fun = sim){
     average_inf[i] <- inf
     average_rec[i] <- rec
   }
-  return (list("avg1" = mean(average_susc), "avg2" = mean(average_inf), "avg3" = mean(average_rec)))
+  return (list("val" = val, "avg1" = mean(average_susc), "avg2" = mean(average_inf), "avg3" = mean(average_rec)))
 }
 
 amount <- 100 # Number of simulations to take mean over. 
+avg_prop <- take.mean(amount, sim)
+val <- avg_prop$val # Values to plot. 
 
+# Parameters for color and linetypes in plot. 
 par_lty <- c(3,2,1)
 par_col <- c("blue", "red", "green")
-plot(1:n, val[1, ], type = "l", lty = par_lty[1], col = par_col[1], xlab="Time Steps", 
+
+# Plot the lines. 
+plot(1:n, val[1, ], type = "l", lty = par_lty[1], col = par_col[1], xlab="Time [days]", 
      ylab = "Individuals", main = capture.output(cat("Mean over ", amount, " realizations")))
 lines(1:n, val[2, ], type = "l", lty = par_lty[2], col = par_col[2])
 lines(1:n, val[3, ], type = "l", lty = par_lty[3], col = par_col[3])
 legend("topright", legend= c("Susceptible", "Infected", "Recovered"), lty = par_lty, col = par_col)
 
-avg_prop <- take.mean(amount, sim)
-print("Mean Proportions:")
+# Print simulated values. 
+print("Mean Proportions:", quote=FALSE)
 cat("Susceptible ", avg_prop$avg1, "\n")
 cat("Infected ", avg_prop$avg2, "\n")
 cat("Recovered ", avg_prop$avg3)
