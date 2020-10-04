@@ -23,10 +23,10 @@ sim <- function(values){
     old_inf <- values[2, t-1]
     old_rec <- values[3, t-1]
     
-    new_susc <- rbinom(n = 1, size = old_susc, 1-beta(values[, t-1]))
-    new_inf <- rbinom(n = 1, size = old_inf, 1-gamma) 
-    new_rec <- rbinom(n = 1,size =  old_rec, 1-alpha) 
-    Y <- c(new_susc - (new_rec - old_rec), new_inf - (new_susc - old_susc), new_rec - (new_inf - old_inf))
+    new_inf <- rbinom(n = 1, size = old_susc, beta(values[, t-1]))
+    new_rec <- rbinom(n = 1, size = old_inf, gamma) 
+    new_susc <- rbinom(n = 1,size =  old_rec, alpha) 
+    Y <- c(old_susc - new_inf + new_susc, old_inf - new_rec + new_inf, old_rec - new_susc + new_rec)
     values[, t] <- Y
   }
   return (values)

@@ -36,10 +36,6 @@ sim <- function(values){
 
 
 find.expected.values <- function(amount, fun = sim){
-  average_susc <- c(length = amount)
-  average_inf <- c(length = amount)
-  average_rec <- c(length = amount)
-
   maximums <- c()
   argmax <- c()
   for (i in 1:amount){
