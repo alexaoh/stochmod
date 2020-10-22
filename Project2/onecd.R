@@ -1,3 +1,4 @@
+# Problem 1c) + 1d) 
 # Simulate a continuous-time MC over a time period of 1000 years. 
 
 days <- 365
@@ -14,6 +15,7 @@ x <- c(0)
 
 # Sojourn times.
 s <- c(0)
+s_inf <- 0
 
 i <- 1
 # Simulate forward in time.
@@ -37,7 +39,9 @@ while (tail(s, n= 1) < years*days){
     prob1 <- q1out[1]/rate
     prob2 <- q1out[3]/rate
     # Sojourn time.
-    s <- c(s, tail(s,n=1) + rexp(n = 1, rate = rate))
+    new_s <- rexp(n = 1, rate = rate)
+    s <- c(s, tail(s,n=1) + new_s)
+    s_inf <- s_inf + new_s # Add to time infected, for task 1d)
     # Draw from uniform distribution.
     r <- runif(1)
     if (prob1 > r){
@@ -50,7 +54,9 @@ while (tail(s, n= 1) < years*days){
     prob1 <- q2out[1]/rate
     prob2 <- q2out[2]/rate
     # Sojourn time.
-    s <- c(s, tail(s,n=1) + rexp(n = 1, rate = rate))
+    new_s <- rexp(n = 1, rate = rate)
+    s <- c(s, tail(s,n=1) + new_s)
+    s_inf <- s_inf + new_s # Add to time infected, for task 1d)
     # Draw from uniform distribution.
     r <- runif(1)
     if (prob1 > r){
@@ -60,7 +66,6 @@ while (tail(s, n= 1) < years*days){
     }
   }
   i <- i+1
-  print(tail(s, n=1))
   
   # Shitty code, very messy + not exactly 1000 years :)
 }
@@ -72,7 +77,9 @@ par_col <- c("blue", "red", "green")
 # Find index in s closest to 5 years. 
 index <- which(abs(s-days*5)==min(abs(s-days*5)))
 plot(s[1:index], x[1:index], xlim = c(0, days*5), ylim = c(0, 2), xlab = "Time (s)", ylab = "States", main = "One Realization, 5 years")
-#legend("center", legend= c("S", "I_L", "I_H"), lty = par_lty, col = par_col)
-#for (i in 1:days*5){
-#  lines(s[i:(i+1)], rep(x[i],2))
-#}
+
+# Calculations in task d).
+# Estimate the long-run mean fraction of time that an individual has an infection, 
+# based on one realization of 1000 years. 
+
+cat("Mean fraction of time infected ", s_inf/(years*days))
