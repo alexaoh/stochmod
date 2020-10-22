@@ -1,4 +1,4 @@
-# Problem 1c) + 1d) 
+# Problem 1c) + 1d) + 1e)
 # Simulate a continuous-time MC over a time period of 1000 years. 
 
 days <- 365
@@ -15,7 +15,12 @@ x <- c(0)
 
 # Sojourn times.
 s <- c(0)
-s_inf <- 0
+s_inf <- 0 # For task 1d)
+
+# For task 1e)
+E_heavy <- c() # Vector of times between heavy infections, for task 1e). 
+heavy_end <- 0
+heavy_start <- 0
 
 i <- 1
 # Simulate forward in time.
@@ -33,6 +38,7 @@ while (tail(s, n= 1) < years*days){
       x <- c(x, curr+1)
     } else{
       x <- c(x, curr+2)
+      heavy_start <- tail(s, n=1) # For task 1e)
     }
   } else if (curr == 1){
     rate <- sum(q1out)
@@ -48,6 +54,7 @@ while (tail(s, n= 1) < years*days){
       x <- c(x, curr-1)
     } else{
       x <- c(x, curr+1)
+      heavy_start <- tail(s, n=1) # For task 1e)
     }
   } else{
     rate <- sum(q2out)
@@ -64,6 +71,10 @@ while (tail(s, n= 1) < years*days){
     } else{
       x <- c(x, curr-1)
     }
+    
+    # For task 1e)
+    E_heavy <- c(E_heavy, heavy_start - heavy_end)
+    heavy_end <- 0
   }
   i <- i+1
   
@@ -83,3 +94,4 @@ plot(s[1:index], x[1:index], xlim = c(0, days*5), ylim = c(0, 2), xlab = "Time (
 # based on one realization of 1000 years. 
 
 cat("Mean fraction of time infected ", s_inf/(years*days))
+cat("\nExpected time between heavy infections", mean(E_heavy)/365, "years. ")
