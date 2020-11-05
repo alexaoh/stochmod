@@ -74,7 +74,7 @@ while (tail(s, n= 1) < years*days){
     
     # For task 1e)
     E_heavy <- c(E_heavy, heavy_start - heavy_end)
-    heavy_end <- 0
+    heavy_end <- tail(s,n=1)
   }
   i <- i+1
   
@@ -87,11 +87,16 @@ par_col <- c("blue", "red", "green")
 
 # Find index in s closest to 5 years. 
 index <- which(abs(s-days*5)==min(abs(s-days*5)))
-plot(s[1:index], x[1:index], xlim = c(0, days*5), ylim = c(0, 2), xlab = "Time (s)", ylab = "States", main = "One Realization, 5 years")
+#plot(s[1:index], x[1:index], xlim = c(0, days*5), ylim = c(0, 2), xlab = "Time (s)", ylab = "States", main = "One Realization, 5 years")
+plot(NULL, NULL, xlim = c(0, days*5), ylim = c(0, 2), xlab = "Time (s)", ylab = "States", main = "One Realization, 5 years")
+for (i in 2:length(s)-1){
+  # Why does not the first index work? Something wrong with the way I defined my vectors earlier?
+  lines(s[i:(i+1)], rep(x[i], 2), lwd = 2)
+}
 
 # Calculations in task d).
 # Estimate the long-run mean fraction of time that an individual has an infection, 
 # based on one realization of 1000 years. 
 
 cat("Mean fraction of time infected ", s_inf/(years*days))
-cat("\nExpected time between heavy infections", mean(E_heavy)/365, "years. ")
+cat("\nExpected time between heavy infections", mean(E_heavy), "days. ")
