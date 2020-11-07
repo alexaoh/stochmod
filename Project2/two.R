@@ -51,11 +51,11 @@ for (i in 1:length(theta)){
 x_A <- E + L %*% z_vec
 
 # Plot the prediction and the 90% prediction interval.
-# plot(theta, x_A, main = "Prediction as a Function of Theta", ylab = "Prediction", xlab = "Theta")
-# lines(theta, x_A)
-# lines(theta, E + 1.64*sqrt(diag(Var)), col = "red", lwd = 2, "l", lty = 2)
-# lines(theta, E - 1.64*sqrt(diag(Var)), col = "red", lwd = 2, "l", lty= 2)
-# legend(0.35,0.7, legend=c("Pred. Int."), col=c("red"), lty=2)#, cex=0.8)
+plot(theta, x_A, main = "Prediction as a Function of Theta", ylab = "Prediction", xlab = "Theta")
+lines(theta, x_A)
+lines(theta, E + 1.64*sqrt(diag(Var)), col = "red", lwd = 2, "l", lty = 2)
+lines(theta, E - 1.64*sqrt(diag(Var)), col = "red", lwd = 2, "l", lty= 2)
+legend(0.35,0.7, legend=c("Pred. Int."), col=c("red"), lty=2)#, cex=0.8)
 
 #2 b): Probabilities.
 library("expm")
@@ -104,11 +104,12 @@ for (i in 1:length(theta)){
 x_A <- E + L %*% z_vec
 
 # Plot the prediction and the 90% prediction interval.
-# plot(theta, x_A, main = "Prediction as a Function of Theta", ylab = "Prediction", xlab = "Theta")
-# lines(theta, x_A)
-# lines(theta, E + 1.64*sqrt(diag(Var)), col = "red", lwd = 2, "l", lty = 2)
-# lines(theta, E - 1.64*sqrt(diag(Var)), col = "red", lwd = 2, "l", lty= 2)
-# legend(0.35,0.7, legend=c("Pred. Int."), col=c("red"), lty=2)#, cex=0.8)
+plot(theta, x_A, main = "Prediction as a Function of Theta", ylab = "Prediction", xlab = "Theta")
+lines(theta, x_A)
+lines(theta, E + 1.64*sqrt(diag(Var)), col = "red", lwd = 2, "l", lty = 2)
+lines(theta, E - 1.64*sqrt(diag(Var)), col = "red", lwd = 2, "l", lty= 2)
+legend(0.35,0.7, legend=c("Pred. Int."), col=c("red"), lty=2)#, cex=0.8)
+
 
 # Probabilities.
 y <- rep(0.30, length(theta))
@@ -118,4 +119,3 @@ plot(theta, prob2, main = "Conditional Probability as Function of Theta", ylab =
 lines(theta, prob2)
 lines(theta, prob, col = "red", lty = 2)
 legend(0.30, 0.38, c("Old Prob.", "New Prob."), col = c("red", "black"), lty=2:1)
-
