@@ -97,7 +97,6 @@ get_mean <- function(state0, tEnd, numSim) {
 #1.c
 tEnd = 5*365
 result <-  simulate_markov(0, tEnd, TRUE)
-time_infected <- result[1]
 
 #1.d
 tEnd = 1000*365
@@ -111,9 +110,7 @@ result <- get_mean(0,tEnd,numSim)
 cat("\nAverage time between heavy infections over ", numSim, " realizations: ", result)
 
 ####### Problem 2
-
-#Project 2 Stochastic Modelling
-#Promblem 2: Calibrating Climate Models
+#Calibrating Climate Models
 
 #2.a
 std = 0.5
@@ -152,7 +149,7 @@ muB <- rep(mu,length(sample_points))
 muC <- muA + Sigma_AB %*% solve(Sigma_BB) %*% (sample_values - muB)
 Sigma_C <- Sigma_AA - Sigma_AB %*% solve(Sigma_BB) %*% t(Sigma_AB)
 
-L = chol(Sigma_C)
+L <-  chol(Sigma_C)
 z <- rnorm(length(theta_grid))
 predict <- muC + L %*% z
 
@@ -175,8 +172,8 @@ y <- rep(0.30,length(theta_grid))
 std_matrix <- Sigma_C %^% -0.5
 standardize <- std_matrix %*% (y - muC)
 probs1 <- pnorm(standardize)
-plot(theta_grid, probs, main = "Conditional Probability as Function of Theta", ylab = "Conditional Prob.", xlab = "Theta")
-lines(theta_grid, probs)
+plot(theta_grid, probs1, main = "Conditional Probability as Function of Theta", ylab = "Conditional Prob.", xlab = "Theta")
+lines(theta_grid, probs1)
 
 #2.c
 #Same as in a), but with one more point.
@@ -192,7 +189,6 @@ muA <-  rep(mu,length(theta_grid))
 muB <- rep(mu,length(sample_points))
 
 muC <- muA + Sigma_AB %*% solve(Sigma_BB) %*% (sample_values - muB)
-muC
 Sigma_C <- Sigma_AA - Sigma_AB %*% solve(Sigma_BB) %*% t(Sigma_AB)
 Sigma_C
 
@@ -217,7 +213,6 @@ legend(0.35,0.7, legend=c("Pred. Int."), col=c("red"), lty=2)
 
 y <- rep(0.30,length(theta_grid))
 std_matrix <- Sigma_C %^% -0.5
-muC
 standardize <- solve(std_matrix) %*% (y - muC)
 standardize
 probs <-  pnorm(standardize)
