@@ -162,9 +162,11 @@ z005 = qnorm(0.95)
 upper = muC + z005*sqrt(diag(Sigma_C))
 lower = muC - z005*sqrt(diag(Sigma_C))
 
+lines(theta_grid, muC, col = "blue", lwd = 2, lty = 3)
+
 lines(theta_grid,upper, col = "red", lwd = 2, "l", lty = 2)
 lines(theta_grid,lower, col = "red", lwd = 2, "l", lty = 2)
-legend(0.35,0.7, legend=c("Pred. Int."), col=c("red"), lty=2)
+legend(0.35,0.7, legend=c("Pred. Int.", "Cond. Mean"), col=c("red", "blue"), lty=c(2,3))
 
 #2.b
 library(expm)   
@@ -172,8 +174,15 @@ y <- rep(0.30,length(theta_grid))
 std_matrix <- Sigma_C %^% -0.5
 standardize <- std_matrix %*% (y - muC)
 probs1 <- pnorm(standardize)
-plot(theta_grid, probs1, main = "Conditional Probability as Function of Theta", ylab = "Conditional Prob.", xlab = "Theta")
-lines(theta_grid, probs1)
+
+# Done differently, since the above was wrong.
+chance_vec1 <- rep(0,51)
+for (i in 1:51){
+  chance_vec1[i] <- pnorm(0.3,mean=muC[i],sd=sqrt(abs(Sigma_C[i,i])))
+}
+
+plot(theta_grid, chance_vec1, main = "Conditional Probability as Function of Theta", ylab = "Conditional Prob.", xlab = "Theta")
+lines(theta_grid, chance_vec1)
 
 #2.c
 #Same as in a), but with one more point.
@@ -202,10 +211,10 @@ plot(theta_grid, predict, main = "Prediction as a Function of Theta", xlab = "Th
 lines(theta_grid, predict)
 
 #Prediction interval
-z005 = qnorm(0.95)
+z005 <-  qnorm(0.95)
 
-upper = muC + z005*sqrt(diag(Sigma_C))
-lower = muC - z005*sqrt(diag(Sigma_C))
+upper <-  muC + z005*sqrt(diag(Sigma_C))
+lower <-  muC - z005*sqrt(diag(Sigma_C))
 
 lines(theta_grid,upper, col = "red", lwd = 2, "l", lty = 2)
 lines(theta_grid,lower, col = "red", lwd = 2, "l", lty = 2)
@@ -213,10 +222,16 @@ legend(0.35,0.7, legend=c("Pred. Int."), col=c("red"), lty=2)
 
 y <- rep(0.30,length(theta_grid))
 std_matrix <- Sigma_C %^% -0.5
-standardize <- solve(std_matrix) %*% (y - muC)
-standardize
-probs <-  pnorm(standardize)
-plot(theta_grid, probs, main = "Conditional Probability as Function of Theta", ylab = "Conditional Prob.", xlab = "Theta")
-lines(theta_grid, probs)
-lines(theta_grid, probs1, col = "red", lty = 2)
-legend(0.30, 0.38, c("Old Prob.", "New Prob."), col = c("red", "black"), lty=2:1)
+standardize <- std_matrix %*% (y - muC)
+probs <- pnorm(standardize)
+
+# Done differently, since the above was wrong.
+chance_vec <- rep(0,51)
+for (i in 1:51){
+  chance_vec[i] <- pnorm(0.3,mean=muC[i],sd=sqrt(abs(Sigma_C[i,i])))
+}
+
+plot(theta_grid, chance_vec, ylim = c(0, 0.25), main = "Conditional Probability as Function of Theta", ylab = "Conditional Prob.", xlab = "Theta")
+lines(theta_grid, chance_vec)
+lines(theta_grid, chance_vec1, col = "red", lty = 2)
+legend(0.40, 0.10, c("Old Prob.", "New Prob."), col = c("red", "black"), lty=2:1)
